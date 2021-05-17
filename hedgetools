@@ -1,0 +1,105 @@
+#!/bin/bash
+# Hide icons, then restart finder
+
+flags=(
+	"--hideicons 
+	--unhideicons 
+	--lightmode 
+	--darkmode 
+	--airpodsbatt 
+	--screensaver 
+	--help 
+	--nosleep 
+	--enablesleep 
+	--showfiles 
+	--hidefiles 
+	--sleep 
+	--lock 
+	--devseed 
+	--publicseed 
+	--unenrollseed 
+	--seed "
+)
+
+[[ $1 == --hideicons ]] && defaults write com.apple.finder CreateDesktop false && killall Finder
+
+#the opposite of that
+[[ $1 == --unhideicons ]] && defaults write com.apple.finder CreateDesktop true && killall Finder
+#  Set Light Mode
+[[ $1 == --lightmode ]] && osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to not dark mode'
+
+# Set Dark Mode
+[[ $1 == --darkmode ]] && osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to true'
+
+# Get AirPods battery levels
+if [[ $1 == --airpodsbatt ]]; then
+	left=$(defaults read /Library/Preferences/com.apple.Bluetooth | grep BatteryPercentLeft | tr -d \; | awk '{print $3}')
+	right=$(defaults read /Library/Preferences/com.apple.Bluetooth | grep BatteryPercentRight | tr -d \; | awk '{print $3}')
+	#Doesn't work correctly because Apple's battery checking is trash. This means I have to make even more garbage than I would otherwise. Thanks Apple!
+	fakecase=$(defaults read /Library/Preferences/com.apple.Bluetooth | grep BatteryPercentCase | tr -d \; | awk '{print $3}')
+	[[ $fakecase > 0 ]] && case="Case: $fakecase \n"
+	printf "Left: $left \nRight: $right \n$case"
+fi
+# Go to screensaver
+[[ $1 == --screensaver ]] && osascript -e 'tell app "System Events" to start current screen saver'
+
+# No sleep
+[[ "$1" == --nosleep ]] && echo "To re-enable sleep, please run '--enablesleep'" && caffeinate -d & disown 
+
+# Re-enable sleep. Because the killall command is stupid, there is no silencing this. Because bash.
+[[ "$1" == --enablesleep ]] && killall caffeinate
+# { kill $(ps -A | grep caffeinate | awk '{print $1}') && wait $(ps -A | grep caffeinate | awk '{print $1}'); } 2>/dev/null
+
+#Show hidden files
+[[ "$1" == --showfiles ]] &&  defaults write com.apple.Finder AppleShowAllFiles 1 && killall Finder
+
+#Rehide hidden files
+[[ "$1" == --hidefiles ]] &&  defaults write com.apple.Finder AppleShowAllFiles 0 && killall Finder
+
+#Sleep
+[[ "$1" == --sleep ]] &&  pmset displaysleepnow
+#Lock
+[[ "$1" == --lock ]] && osascript -e 'tell application "System Events" to keystroke "q" using {command down,control down}'
+#DevSeed
+[[ "$1" == --devseed ]] && sudo /System/Library/PrivateFrameworks/Seeding.framework/Versions/A/Resources/seedutil enroll DeveloperSeed
+#PublicSeed
+[[ "$1" == --publicseed ]] && sudo /System/Library/PrivateFrameworks/Seeding.framework/Versions/A/Resources/seedutil enroll PublicSeed
+#UnenrollSeed
+[[ "$1" == --unenrollseed ]] && sudo /System/Library/PrivateFrameworks/Seeding.framework/Versions/A/Resources/seedutil unenroll
+#Seed
+[[ "$1" == --seed ]] && sudo /System/Library/PrivateFrameworks/Seeding.framework/Versions/A/Resources/seedutil current | grep "Currently enrolled"
+
+
+
+
+# Help
+if [[ ! "${flags[@]}" == *"$1 "* || "$1" == --help || -z "$1" ]]; then
+	echo ""
+	[[ "${flags[@]}" == *"$1 "* ]] || echo "Invalid command!"
+	echo "Available flags:"
+	echo "	--help		Displays this menu"
+	echo "	--hideicons 	Removes icons from the desktop"
+	echo "	--unhideicons 	Restore icons to the the desktop"
+	echo "	--lightmode 	Change the theme from Dark Mode to Light Mode"
+	echo "	--darkmode 	Change the theme from Light Mode to Dark Mode"
+	echo "	--airpodsbatt 	List the battery percentage of AirPods and their case"
+	echo "	--screensaver 	Exit to the screensaver"
+	echo "	--nosleep 	Stop your computer screen from going to sleep"
+	echo "	--enablesleep	Allow your computer to sleep after running '--nosleep'"
+	echo "	--showfiles	Show hidden files"
+	echo "	--hidefiles	Hide files that should be hidden by default"
+	echo "	--sleep 	Put the display to sleep"
+	echo "	--lock		Locks the screen"
+	echo "	--devseed	Enroll for macOS Developer Betas"
+	echo "	--publicseed	Enroll for macOS Public Betas"
+	echo "	--unenrollseed	Unenroll from any betas"
+	echo "	--seed		List current seed"
+	echo ""
+fi
+
+	
+	
+	
+	
+	
+
