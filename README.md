@@ -1,7 +1,7 @@
 ## hedgetools
 A simple tool to do various things
 
-<img width="1166" alt="Screen Shot 2021-05-16 at 9 15 11 PM" src="https://user-images.githubusercontent.com/72932987/118424008-e98d6800-b68b-11eb-81e6-ede6d4ef4c6f.png">
+<img width="1122" alt="Screen Shot 2021-05-16 at 9 15 11 PM" src="https://user-images.githubusercontent.com/72932987/118424072-0e81db00-b68c-11eb-965f-7ce952947379.png">
 
 
 # Commands
