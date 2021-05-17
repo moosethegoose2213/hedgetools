@@ -44,11 +44,10 @@ fi
 [[ $1 == --screensaver ]] && osascript -e 'tell app "System Events" to start current screen saver'
 
 # No sleep
-[[ "$1" == --nosleep ]] && echo "To re-enable sleep, please run '--enablesleep'" && caffeinate -d & disown 
+[[ "$1" == --nosleep ]] && echo "To re-enable sleep, please run '--enablesleep'" && sudo pmset -a disablesleep 1
 
-# Re-enable sleep. Because the killall command is stupid, there is no silencing this. Because bash.
-[[ "$1" == --enablesleep ]] && killall caffeinate
-# { kill $(ps -A | grep caffeinate | awk '{print $1}') && wait $(ps -A | grep caffeinate | awk '{print $1}'); } 2>/dev/null
+# Re-enable sleep. 
+[[ "$1" == --enablesleep ]] && sudo pmset -a disablesleep 0
 
 #Show hidden files
 [[ "$1" == --showfiles ]] &&  defaults write com.apple.Finder AppleShowAllFiles 1 && killall Finder
