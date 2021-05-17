@@ -29,6 +29,6 @@ A simple tool to do various things
 Example:
 ```sh
 cp ~/Downloads/hedgetools /usr/local/bin
-
+```
 2. Run `hedgetools` to use
 3. Thats it, you copy the file and run it. Nothing else to really say...
