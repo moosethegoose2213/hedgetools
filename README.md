@@ -26,7 +26,7 @@ A simple macOS command line tool to do various things
 
 Example:
 ```sh
-cp ~/Downloads/hedgetools /usr/local/bin && chmod +x /usr/local/bin hedgetools
+cp ~/Downloads/hedgetools /usr/local/bin && chmod +x /usr/local/bin/hedgetools
 ```
 2. Run `hedgetools` to use
 3. Thats it, you copy the file and run it. Nothing else to really say... 
