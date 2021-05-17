@@ -26,6 +26,7 @@ A simple tool to do various things
 
 # Installation
 1. Copy to /usr/local/bin
+
 Example:
 ```sh
 cp ~/Downloads/hedgetools /usr/local/bin
