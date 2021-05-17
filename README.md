@@ -1,9 +1,6 @@
 ## hedgetools
 A simple macOS command line tool to do various things
 
-<img width="1122" alt="Screen Shot 2021-05-16 at 9 15 11 PM" src="https://user-images.githubusercontent.com/72932987/118424072-0e81db00-b68c-11eb-965f-7ce952947379.png">
-
-
 # Commands
 	--help		Displays this menu
 	--hideicons 	Removes icons from the desktop
